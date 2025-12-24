@@ -4,11 +4,11 @@
 
 ## 🎯 功能
 
-- ✅ **一鍵分派** - 點連結直接分派，無需額外操作
+- ⚡ **零延遲** - 點連結立即跳轉，完全無感分派
 - ⚖️ **公平分派** - 自動追蹤，確保兩份問卷 50:50 分派
-- 📊 **即時統計** - 頁面顯示實時分派數據和進度條
+- 📄 **極簡設計** - 只有一個連結，無任何 UI
 - ♾️ **無限制** - 支持無限數量的受訪者分派
-- 💾 **本地存儲** - 使用瀏覽器 localStorage，數據保留在用戶裝置
+- 💾 **本地存儲** - 使用瀏覽器 localStorage 記錄分派數據
 
 ## 🚀 立即使用
 
@@ -19,9 +19,9 @@ https://tiara-lin.github.io/affective_AI_ch/
 ```
 
 受訪者點擊連結即可：
-1. ⚡ **立即跳轉**到隨機分派的問卷（無延遲）
-2. 後台自動記錄分派數據
-3. 完全無感的體驗
+- ⚡ **立即跳轉**到隨機分派的問卷
+- 📄 沒有任何頁面或 UI
+- 💾 後台自動記錄分派（無感操作）
 
 ## 🔗 問卷連結
 
@@ -40,7 +40,7 @@ https://tiara-lin.github.io/affective_AI_ch/
 ## 📁 文件結構
 
 ```
-├── index.html              # 主程式（一切都在這裡）
+├── index.html              # 主程式（35 行代碼）
 ├── README.md              # 項目說明
 ├── app.py                 # Flask 版本（備用）
 ├── survey_randomizer.py   # 本地 Python 版本（備用）
@@ -72,10 +72,9 @@ python -m http.server 8000
 
 ```javascript
 localStorage.removeItem('survey_distribution');
-location.reload();
 ```
 
-或直接清除瀏覽器數據。
+或直接清除瀏覽器的網站數據。
 
 ## 💡 進階用法
 
@@ -90,13 +89,18 @@ const SURVEYS = {
 };
 ```
 
-### 2. 修改顯示文字
+### 2. 查看分派統計
 
-在 HTML 中找到對應的文字並修改即可。
+在瀏覽器控制台執行：
 
-### 3. 自定義樣式
+```javascript
+JSON.parse(localStorage.getItem('survey_distribution'))
+// 返回: { "hotel": 50, "medical": 50 }
+```
 
-修改 `<style>` 標籤內的 CSS。
+### 3. 自定義分派邏輯
+
+編輯 `index.html` 中的 `getBalancedSurvey()` 函數。
 
 ## 🌐 部署方式
 
