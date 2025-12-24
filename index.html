@@ -334,49 +334,13 @@
             stats[surveyType]++;
             saveStats(stats);
 
-            // 更新 UI
-            updateUI();
-
-            // 顯示結果
-            showResult(surveyType);
-
-            // 3 秒後重定向
-            setTimeout(() => {
-                window.location.href = SURVEYS[surveyType];
-            }, 3000);
+            // 立即跳轉，不等待
+            window.location.href = SURVEYS[surveyType];
         }
 
-        // 顯示結果
-        function showResult(surveyType) {
-            const resultBox = document.getElementById("resultBox");
-            const resultIcon = document.getElementById("resultIcon");
-            const resultSurvey = document.getElementById("resultSurvey");
-
-            if (surveyType === "hotel") {
-                resultIcon.textContent = "🏨";
-                resultSurvey.textContent = "飯店問卷";
-            } else {
-                resultIcon.textContent = "⚕️";
-                resultSurvey.textContent = "醫療問卷";
-            }
-
-            resultBox.classList.add("show");
-        }
-
-        // 重置統計
-        function resetStats() {
-            if (confirm("確定要重置所有統計數據嗎？")) {
-                saveStats({ hotel: 0, medical: 0 });
-                updateUI();
-                document.getElementById("resultBox").classList.remove("show");
-                alert("統計已重置！");
-            }
-        }
-
-        // 初始化 - 立即分派
-        window.addEventListener('load', function() {
-            dispatchSurvey();
-        });
+        // 初始化 - 立即分派，無延遲
+        dispatchSurvey();
+    </script>
     </script>
 </body>
 </html>
