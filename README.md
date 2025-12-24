@@ -48,10 +48,7 @@ https://tiara-lin.github.io/affective_AI_ch/stats.html
 ```
 ├── index.html              # 分派頁面（受訪者用）
 ├── stats.html              # 統計頁面（查看數據）
-├── README.md              # 項目說明
-├── app.py                 # Flask 版本（備用）
-├── survey_randomizer.py   # 本地 Python 版本（備用）
-└── .github/               # GitHub Actions 配置
+└── README.md              # 項目說明
 ```
 
 ## 🔧 本地運行
@@ -64,14 +61,6 @@ https://tiara-lin.github.io/affective_AI_ch/stats.html
 python -m http.server 8000
 ```
 訪問 http://localhost:8000
-
-## 📈 查看統計
-
-頁面會自動顯示：
-- 總分派人數
-- 飯店問卷分派數和百分比
-- 醫療問卷分派數和百分比
-- 進度條視覺化
 
 ## 🔄 重置統計
 
@@ -105,21 +94,11 @@ JSON.parse(localStorage.getItem('survey_distribution'))
 // 返回: { "hotel": 50, "medical": 50 }
 ```
 
-### 3. 自定義分派邏輯
-
-編輯 `index.html` 中的 `getBalancedSurvey()` 函數。
+或訪問 `stats.html` 頁面查看視覺化統計。
 
 ## 🌐 部署方式
 
-### GitHub Pages（推薦，已配置）
-已自動配置為 GitHub Pages 項目，每次 push 都會自動部署。
-
-### 其他靜態網站服務
-- Netlify
-- Vercel  
-- Firebase Hosting
-
-直接上傳 `index.html` 即可。
+已配置在 GitHub Pages，無需額外部署步驟。
 
 ## 📝 注意事項
 
