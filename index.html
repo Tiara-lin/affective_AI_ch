@@ -2,345 +2,43 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>問卷分派中...</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 28px;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-        
-        .stats-box {
-            background: #f5f5f5;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .stat-row:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .stat-label {
-            color: #555;
-            font-weight: 600;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            transition: width 0.3s ease;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        button {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-        }
-        
-        .btn-dispatch {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-size: 18px;
-            padding: 18px;
-        }
-        
-        .btn-dispatch:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-        
-        .btn-dispatch:active {
-            transform: translateY(0);
-        }
-        
-        .btn-reset {
-            background: #f0f0f0;
-            color: #666;
-        }
-        
-        .btn-reset:hover {
-            background: #e0e0e0;
-        }
-        
-        .result-box {
-            background: #f0f8ff;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .result-box.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .result-text {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .result-survey {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 10px 0;
-        }
-        
-        .survey-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-        
-        .info-box {
-            background: #fef5e7;
-            border-left: 4px solid #f39c12;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .info-box strong {
-            color: #333;
-        }
-        
-        .redirect-message {
-            background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            text-align: center;
-            font-size: 14px;
-        }
-    </style>
+    <title>分派中...</title>
 </head>
 <body>
-    <div class="container">
-        <h1>🎲 正在分派問卷...</h1>
-        <p class="subtitle">請稍候，系統正在為你分派問卷</p>
-        
-        <!-- 分派中的動畫 -->
-        <div style="text-align: center; margin: 40px 0;">
-            <div style="font-size: 48px; animation: spin 1s linear infinite;">⏳</div>
-            <p style="color: #666; margin-top: 20px; font-size: 16px;">
-                即將導向到問卷...
-            </p>
-        </div>
-        
-        <!-- 統計區域 -->
-        <div class="stats-box">
-            <div class="stat-row">
-                <span class="stat-label">📊 總分派人數</span>
-                <span class="stat-value" id="totalCount">0</span>
-            </div>
-            
-            <div class="stat-row">
-                <span class="stat-label">🏨 飯店問卷</span>
-                <span class="stat-value" id="hotelCount">0</span>
-                <span style="color: #999; margin-left: 10px;" id="hotelPercent">(0%)</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="hotelProgress" style="width: 0%"></div>
-            </div>
-            
-            <div class="stat-row">
-                <span class="stat-label">⚕️ 醫療問卷</span>
-                <span class="stat-value" id="medicalCount">0</span>
-                <span style="color: #999; margin-left: 10px;" id="medicalPercent">(0%)</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="medicalProgress" style="width: 0%; background: linear-gradient(90deg, #2ecc71, #27ae60);"></div>
-            </div>
-        </div>
-        
-        <!-- 結果顯示 -->
-        <div class="result-box show" id="resultBox">
-            <div class="survey-icon" id="resultIcon"></div>
-            <div class="result-text">你已分派到：</div>
-            <div class="result-survey" id="resultSurvey"></div>
-            <div class="redirect-message">
-                ⏳ 系統正在導向到問卷...
-            </div>
-        </div>
-        
-        <!-- 資訊區 -->
-        <div class="info-box">
-            <strong>📝 此次分派已記錄</strong><br>
-            系統自動追蹤分派，確保公平分派。
-        </div>
-    </div>
-    
-    <style>
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
-
     <script>
-        // 問卷 URLs
         const SURVEYS = {
             hotel: "https://tassel.syd1.qualtrics.com/jfe/form/SV_cCtJgUMGbUGfyxE",
             medical: "https://tassel.syd1.qualtrics.com/jfe/form/SV_1TXCuW7dGUxH7Aa"
         };
 
-        // 本地存儲的鍵名
         const STORAGE_KEY = "survey_distribution";
 
-        // 讀取統計數據
+        // 讀取統計
         function loadStats() {
             const data = localStorage.getItem(STORAGE_KEY);
-            if (data) {
-                return JSON.parse(data);
-            }
-            return { hotel: 0, medical: 0 };
+            return data ? JSON.parse(data) : { hotel: 0, medical: 0 };
         }
 
-        // 保存統計數據
+        // 保存統計
         function saveStats(stats) {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
         }
 
-        // 更新 UI
-        function updateUI() {
-            const stats = loadStats();
-            const total = stats.hotel + stats.medical;
-
-            document.getElementById("totalCount").textContent = total;
-            document.getElementById("hotelCount").textContent = stats.hotel;
-            document.getElementById("medicalCount").textContent = stats.medical;
-
-            // 計算百分比
-            const hotelPercent = total === 0 ? 0 : Math.round((stats.hotel / total) * 100);
-            const medicalPercent = total === 0 ? 0 : Math.round((stats.medical / total) * 100);
-
-            document.getElementById("hotelPercent").textContent = `(${hotelPercent}%)`;
-            document.getElementById("medicalPercent").textContent = `(${medicalPercent}%)`;
-
-            // 更新進度條
-            document.getElementById("hotelProgress").style.width = hotelPercent + "%";
-            document.getElementById("medicalProgress").style.width = medicalPercent + "%";
-        }
-
-        // 獲得平衡分派的問卷類型
+        // 獲得平衡分派的問卷
         function getBalancedSurvey() {
             const stats = loadStats();
-
-            // 如果計數相同，隨機選擇
             if (stats.hotel === stats.medical) {
                 return Math.random() < 0.5 ? "hotel" : "medical";
             }
-
-            // 分派到計數較少的問卷
             return stats.hotel < stats.medical ? "hotel" : "medical";
         }
 
-        // 分派問卷
-        function dispatchSurvey() {
-            const surveyType = getBalancedSurvey();
-            const stats = loadStats();
-            stats[surveyType]++;
-            saveStats(stats);
-
-            // 立即跳轉，不等待
-            window.location.href = SURVEYS[surveyType];
-        }
-
-        // 初始化 - 立即分派，無延遲
-        dispatchSurvey();
-    </script>
+        // 立即分派並跳轉
+        const surveyType = getBalancedSurvey();
+        const stats = loadStats();
+        stats[surveyType]++;
+        saveStats(stats);
+        window.location.href = SURVEYS[surveyType];
     </script>
 </body>
 </html>
