@@ -12,16 +12,22 @@
 
 ## 🚀 立即使用
 
-**直接分享這個連結給受訪者：**
-
+### 分派連結（給受訪者）
 ```
 https://tiara-lin.github.io/affective_AI_ch/
 ```
+點擊即可立即跳轉到隨機分派的問卷，完全無感。
 
-受訪者點擊連結即可：
-- ⚡ **立即跳轉**到隨機分派的問卷
-- 📄 沒有任何頁面或 UI
-- 💾 後台自動記錄分派（無感操作）
+### 統計頁面（查看分派數據）
+```
+https://tiara-lin.github.io/affective_AI_ch/stats.html
+```
+實時查看：
+- 📊 總分派人數
+- 🏨 飯店問卷數量和百分比
+- ⚕️ 醫療問卷數量和百分比
+- 自動每 2 秒刷新
+- 手動刷新、重置、測試按鈕
 
 ## 🔗 問卷連結
 
@@ -40,7 +46,8 @@ https://tiara-lin.github.io/affective_AI_ch/
 ## 📁 文件結構
 
 ```
-├── index.html              # 主程式（35 行代碼）
+├── index.html              # 分派頁面（受訪者用）
+├── stats.html              # 統計頁面（查看數據）
 ├── README.md              # 項目說明
 ├── app.py                 # Flask 版本（備用）
 ├── survey_randomizer.py   # 本地 Python 版本（備用）
