@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>分派中...</title>
+</head>
+<body>
+    <script>
+        const SURVEYS = {
+            hotel: "https://tassel.syd1.qualtrics.com/jfe/form/SV_diFMVXRuUJOZAii",
+            medical: "https://tassel.syd1.qualtrics.com/jfe/form/SV_d5RfsG1z6t64RO6"
+        };
+
+        const STORAGE_KEY = "survey_distribution";
+
+        // 讀取統計
+        function loadStats() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : { hotel: 0, medical: 0 };
+        }
+
+        // 保存統計
+        function saveStats(stats) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+        }
+
+        // 獲得平衡分派的問卷
+        function getBalancedSurvey() {
+            const stats = loadStats();
+            if (stats.hotel === stats.medical) {
+                return Math.random() < 0.5 ? "hotel" : "medical";
+            }
+            return stats.hotel < stats.medical ? "hotel" : "medical";
+        }
+
+        // 立即分派並跳轉
+        const surveyType = getBalancedSurvey();
+        const stats = loadStats();
+        stats[surveyType]++;
+        saveStats(stats);
+        // 添加時間戳防止緩存
+        window.location.href = SURVEYS[surveyType] + "?t=" + Date.now();
+    </script>
+</body>
+</html>

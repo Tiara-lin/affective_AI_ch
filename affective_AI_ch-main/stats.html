@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分派統計</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .stats {
+            margin-bottom: 30px;
+        }
+        
+        .stat-item {
+            margin-bottom: 25px;
+        }
+        
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .total {
+            text-align: center;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .total-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .total-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-refresh {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-refresh:hover {
+            background: #5568d3;
+        }
+        
+        .btn-reset {
+            background: #f0f0f0;
+            color: #666;
+        }
+        
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+        
+        .btn-back {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: #27ae60;
+        }
+        
+        .link-section {
+            background: #f0f8ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        
+        .link-section strong {
+            color: #333;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .link-section a {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        
+        .link-section a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 分派統計</h1>
+        
+        <div class="total">
+            <div class="total-label">總分派人數</div>
+            <div class="total-value" id="totalCount">0</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-header">
+                    <span class="stat-label">🏨 飯店問卷</span>
+                    <span class="stat-value" id="hotelCount">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="hotelProgress" style="width: 0%;">
+                        <span id="hotelPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-header">
+                    <span class="stat-label">⚕️ 醫療問卷</span>
+                    <span class="stat-value" id="medicalCount">0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="medicalProgress" style="width: 0%; background: linear-gradient(90deg, #2ecc71, #27ae60);">
+                        <span id="medicalPercent">0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="link-section">
+            <strong>📤 分派連結：</strong>
+            <a href="./" target="_blank">https://tiara-lin.github.io/affective_AI_ch/</a>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-refresh" onclick="refreshStats()">🔄 刷新</button>
+            <button class="btn-reset" onclick="resetStats()">🗑️ 重置</button>
+            <button class="btn-back" onclick="goToSurvey()">📤 分派一次</button>
+        </div>
+    </div>
+    
+    <script>
+        const STORAGE_KEY = "survey_distribution";
+        
+        function loadStats() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : { hotel: 0, medical: 0 };
+        }
+        
+        function saveStats(stats) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+        }
+        
+        function updateUI() {
+            const stats = loadStats();
+            const total = stats.hotel + stats.medical;
+            
+            document.getElementById("totalCount").textContent = total;
+            document.getElementById("hotelCount").textContent = stats.hotel;
+            document.getElementById("medicalCount").textContent = stats.medical;
+            
+            const hotelPercent = total === 0 ? 0 : Math.round((stats.hotel / total) * 100);
+            const medicalPercent = total === 0 ? 0 : Math.round((stats.medical / total) * 100);
+            
+            document.getElementById("hotelPercent").textContent = hotelPercent + "%";
+            document.getElementById("medicalPercent").textContent = medicalPercent + "%";
+            
+            const hotelWidth = total === 0 ? 0 : (stats.hotel / total) * 100;
+            const medicalWidth = total === 0 ? 0 : (stats.medical / total) * 100;
+            
+            document.getElementById("hotelProgress").style.width = hotelWidth + "%";
+            document.getElementById("medicalProgress").style.width = medicalWidth + "%";
+        }
+        
+        function refreshStats() {
+            updateUI();
+            alert("已刷新統計！");
+        }
+        
+        function resetStats() {
+            if (confirm("確定要重置所有統計數據嗎？")) {
+                saveStats({ hotel: 0, medical: 0 });
+                updateUI();
+                alert("統計已重置！");
+            }
+        }
+        
+        function goToSurvey() {
+            window.location.href = "./";
+        }
+        
+        // 定時自動刷新（每 2 秒）
+        setInterval(updateUI, 2000);
+        
+        // 初始化
+        updateUI();
+    </script>
+</body>
+</html>
